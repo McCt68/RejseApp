@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RejseApp.Models
 {
-    internal class RejseListe: ObservableCollection<rejse>
+    internal class RejseListe: ObservableCollection<Rejse>
     {
 
         

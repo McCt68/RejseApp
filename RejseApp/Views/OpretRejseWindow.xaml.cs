@@ -21,18 +21,16 @@ namespace RejseApp
     public partial class OpretRejseWindow : Window
     {
 
-        public rejse NewHoliday { get; private set; }
+        public Rejse NyRejse { get; private set; }
         public OpretRejseWindow()
         {
             InitializeComponent();
-
-            // Cursor starter i destinationTextBox
+            
             destinationTextBox.Focus();
-            datePicker.SelectedDate = DateTime.Now;
+            datePicker.SelectedDate = DateTime.Today;
             //CultureInfo danskeMåneder = new CultureInfo("da-DK");
             //DateTimePicker datovælger = new DateTimePicker;
         }
-
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
@@ -48,16 +46,13 @@ namespace RejseApp
                 return;
             }
 
-            // bliver dette brugt ??
-            //NewHoliday = new Rejse
-            //{
-            //    Destination = destinationTextBox.Text,
-            //    Pris = price,
-            //    Dato = datePicker.SelectedDate.Value
-            //};
-
-            // Jeg tror jeg skal flytte koden til at initialisere et rejse object her over til
-
+            NyRejse = new Rejse
+            {
+                Destination = $"{destinationTextBox.Text} -",
+                Pris = price,
+                Dato = datePicker.SelectedDate.Value
+            };
+           
             // DialogResult = true;
             this.DialogResult = true;
             Close();

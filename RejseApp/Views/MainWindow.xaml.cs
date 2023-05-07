@@ -27,7 +27,7 @@ namespace RejseApp
     {
 
         SaveDataModel saveDataModel = new SaveDataModel();
-        public ObservableCollection<rejse> rejser { get; set; }
+        public ObservableCollection<Rejse> rejser { get; set; }
 
         private bool erDataGemt = false; // Holder styr på om data allerede er gemt
 
@@ -38,15 +38,15 @@ namespace RejseApp
             if (File.Exists("rejser.xml"))
             {
                 // Load XML from bin/debug
-                var serializer = new XmlSerializer(typeof(ObservableCollection<rejse>));
+                var serializer = new XmlSerializer(typeof(ObservableCollection<Rejse>));
                 using (var reader = new StreamReader("rejser.xml"))
                 {
-                    rejser = (ObservableCollection<rejse>)serializer.Deserialize(reader);
+                    rejser = (ObservableCollection<Rejse>)serializer.Deserialize(reader);
                 }
             }
             else
             {
-                rejser = new ObservableCollection<rejse>();
+                rejser = new ObservableCollection<Rejse>();
             }
 
             // Sets the DataContext of the window to the "Rejser" property -
@@ -59,21 +59,24 @@ namespace RejseApp
             // Opret nyt vindue
             OpretRejseWindow opretRejseWindow = new OpretRejseWindow();
 
-            bool? result = opretRejseWindow.ShowDialog();
+            bool? visOpretRejseWindow = opretRejseWindow.ShowDialog();
 
-            if (result == true)
+            if (visOpretRejseWindow == true)
             {
-                string pris = opretRejseWindow.priceTextBox.Text;
-                decimal decimalPris;
-                if (Decimal.TryParse(pris, out decimalPris))
+                //string pris = opretRejseWindow.priceTextBox.Text;
+                //decimal decimalPris;
+                //if (Decimal.TryParse(pris, out decimalPris))
 
-                    // Tilføj den nye rejse med de data bruger har indtastet
-                    rejser.Add(new rejse
-                    {
-                        Destination = "Destination: " + opretRejseWindow.destinationTextBox.Text + " - ",
-                        Pris = decimalPris,
-                        Dato = opretRejseWindow.datePicker.SelectedDate.Value
-                    });
+                //    // Tilføj den nye rejse med de data bruger har indtastet
+                //    rejser.Add(new Rejse
+                //    {
+                //        Destination = $"{opretRejseWindow.NyRejse.Destination} - ",
+                //        Pris = decimalPris,
+                //        Dato = opretRejseWindow.datePicker.SelectedDate.Value
+                //    });
+
+                rejser.Add(opretRejseWindow.NyRejse);
+
                 erDataGemt = false;
             }
         }
@@ -82,7 +85,7 @@ namespace RejseApp
         {
             if (ListBox.SelectedItems != null)
             {
-                rejser.Remove(ListBox.SelectedItem as rejse);
+                rejser.Remove(ListBox.SelectedItem as Rejse);
                 MessageBox.Show("Rejse slettet");
                 erDataGemt = false;
             }
@@ -91,7 +94,7 @@ namespace RejseApp
             if (!erDataGemt)
             {
                 // save to xml
-                var serializer = new XmlSerializer(typeof(ObservableCollection<rejse>));
+                var serializer = new XmlSerializer(typeof(ObservableCollection<Rejse>));
 
                 using (var stream = new FileStream("rejser.xml", FileMode.Create))
                 {
@@ -115,7 +118,7 @@ namespace RejseApp
             // given data source, and what form the order the returned data should have.                       
 
             // Brug af LINQ Library, til at sortere min collection
-            ObservableCollection<rejse> sorterEfterPris = new ObservableCollection<rejse>(
+            ObservableCollection<Rejse> sorterEfterPris = new ObservableCollection<Rejse>(
                 from rejse in rejser
                 orderby rejse.Pris
                 select rejse);
@@ -137,7 +140,7 @@ namespace RejseApp
         {
             // Brug af LINQ med en Lambda metode. Giver samme resultat som ved at bruge SQL syntax -
             // Som jeg brugte da jeg sorterede efter Pris
-            var sortedRejser = new ObservableCollection<rejse>(rejser.OrderBy(rejse => rejse.Dato));
+            var sortedRejser = new ObservableCollection<Rejse>(rejser.OrderBy(rejse => rejse.Dato));
 
             // Replace the existing collection with the sorted collection
             rejser = sortedRejser;
@@ -163,7 +166,7 @@ namespace RejseApp
             if (!erDataGemt)
             {
                 // save to xml
-                var serializer = new XmlSerializer(typeof(ObservableCollection<rejse>));                
+                var serializer = new XmlSerializer(typeof(ObservableCollection<Rejse>));                
 
                 using (var stream = new FileStream("rejser.xml", FileMode.Create))                
                 {
@@ -185,7 +188,7 @@ namespace RejseApp
                 {
                     if (string.Compare(rejser[j].Destination, rejser[j+1].Destination, StringComparison.OrdinalIgnoreCase) > 0)
                     {
-                        rejse temporary = rejser[j];
+                        Rejse temporary = rejser[j];
                         rejser[j] = rejser[j+1];
                         rejser[j+1] = temporary;
                     }

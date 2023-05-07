@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RejseApp.Models
 {
-    public class rejse
+    public class Rejse
     {
 
         // Encapsulation

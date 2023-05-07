@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RejseApp"
         mc:Ignorable="d"
-        Title="OpretRejseWindow" Height="250" Width="450">
+        Title="OpretRejseWindow" Height="250" Width="330">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -48,6 +48,7 @@
             Content="Dato:" />
         <DatePicker
             Name="datePicker"
+            Cursor="Hand"
             Grid.Row="2"
             Grid.Column="1"
             Width="150"
