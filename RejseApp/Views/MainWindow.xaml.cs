@@ -25,33 +25,39 @@ namespace RejseApp
 
     public partial class MainWindow : Window
     {
-
-        SaveDataModel saveDataModel = new SaveDataModel();
-        public ObservableCollection<Rejse> rejser { get; set; }
+        public ObservableCollection<Rejse> Rejser { get; set; }
 
         private bool erDataGemt = false; // Holder styr på om data allerede er gemt
+
+        SaveDataModel saveDataModel = new SaveDataModel();
+        LoadDataModel loadDataModel = new LoadDataModel();
 
         public MainWindow()
         {
             InitializeComponent();
 
-            if (File.Exists("rejser.xml"))
-            {
-                // Load XML from bin/debug
-                var serializer = new XmlSerializer(typeof(ObservableCollection<Rejse>));
-                using (var reader = new StreamReader("rejser.xml"))
-                {
-                    rejser = (ObservableCollection<Rejse>)serializer.Deserialize(reader);
-                }
-            }
-            else
-            {
-                rejser = new ObservableCollection<Rejse>();
-            }
+            loadDataModel.LoadData();
 
-            // Sets the DataContext of the window to the "Rejser" property -
-            // which means that any bindings to this property will update automatically when the collection changes.
-            DataContext = rejser;
+            Rejser = loadDataModel.FerieDataXML;
+
+            //if (File.Exists("rejser.xml"))
+            //{
+            //    // Load XML from bin/net6.0-windows/debug
+            //    var serializer = new XmlSerializer(typeof(ObservableCollection<Rejse>));
+            //    using (var reader = new StreamReader("rejser.xml"))
+            //    {
+            //        Rejser = (ObservableCollection<Rejse>)serializer.Deserialize(reader);
+            //    }
+            //}
+            //else
+            //{
+            //    Rejser = new ObservableCollection<Rejse>();
+            //}           
+
+            // Sæt dataContext for dette vindue til Rejser property -
+            // Dette gør at alle bindings i XAML opdaterer automatisk når Rejser listen ændrer sig -
+            // Det er fordi at en ObservableCollection implementerer INotifyPropertyChanged interfacet.
+            DataContext = Rejser;
         }
 
         private void Btn_OpretNyRejse(object sender, RoutedEventArgs e)
@@ -63,19 +69,7 @@ namespace RejseApp
 
             if (visOpretRejseWindow == true)
             {
-                //string pris = opretRejseWindow.priceTextBox.Text;
-                //decimal decimalPris;
-                //if (Decimal.TryParse(pris, out decimalPris))
-
-                //    // Tilføj den nye rejse med de data bruger har indtastet
-                //    rejser.Add(new Rejse
-                //    {
-                //        Destination = $"{opretRejseWindow.NyRejse.Destination} - ",
-                //        Pris = decimalPris,
-                //        Dato = opretRejseWindow.datePicker.SelectedDate.Value
-                //    });
-
-                rejser.Add(opretRejseWindow.NyRejse);
+                Rejser.Add(opretRejseWindow.NyRejse);
 
                 erDataGemt = false;
             }
@@ -85,11 +79,10 @@ namespace RejseApp
         {
             if (ListBox.SelectedItems != null)
             {
-                rejser.Remove(ListBox.SelectedItem as Rejse);
+                Rejser.Remove(ListBox.SelectedItem as Rejse);
                 MessageBox.Show("Rejse slettet");
                 erDataGemt = false;
             }
-            
 
             if (!erDataGemt)
             {
@@ -98,20 +91,15 @@ namespace RejseApp
 
                 using (var stream = new FileStream("rejser.xml", FileMode.Create))
                 {
-                    serializer.Serialize(stream, rejser);
+                    serializer.Serialize(stream, Rejser);
                 }
-                erDataGemt = true;                
+                erDataGemt = true;
             }
 
         }
 
         private void btn_SorterPris(object sender, RoutedEventArgs e)
         {
-            // prøve at sortere med for loop
-            for (int i = 0; i < rejser.Count; i++)
-            {
-
-            }
 
             // Using LINQ - Language Integrated Query - 
             // A Query is a set of instructions that defines what data to retrive from a -
@@ -119,78 +107,60 @@ namespace RejseApp
 
             // Brug af LINQ Library, til at sortere min collection
             ObservableCollection<Rejse> sorterEfterPris = new ObservableCollection<Rejse>(
-                from rejse in rejser
+                from rejse in Rejser
                 orderby rejse.Pris
                 select rejse);
 
             // Replace the existing collection with the sorted collection
-            rejser = sorterEfterPris;
-
-
-            //// Brug af LINQ med en Lambda metode. giver samme resultat som ved at bruge SQL syntax
-            //var sortedRejser = new ObservableCollection<Rejse>(Rejser.OrderBy(rejse => rejse.Pris));
-            //// Replace the existing collection with the sorted collection
-            //// Rejser = sortedRejser;
+            Rejser = sorterEfterPris;
 
             // Set the DataContext of the window to the sorted collection
-            DataContext = rejser;
+            DataContext = Rejser;
         }
 
         private void btn_SorterDato(object sender, RoutedEventArgs e)
         {
             // Brug af LINQ med en Lambda metode. Giver samme resultat som ved at bruge SQL syntax -
             // Som jeg brugte da jeg sorterede efter Pris
-            var sortedRejser = new ObservableCollection<Rejse>(rejser.OrderBy(rejse => rejse.Dato));
+            var sortedRejser = new ObservableCollection<Rejse>(Rejser.OrderBy(rejse => rejse.Dato));
 
             // Replace the existing collection with the sorted collection
-            rejser = sortedRejser;
+            Rejser = sortedRejser;
 
             // Set the DataContext of the window to the sorted collection
-            DataContext = rejser;
-
-
+            DataContext = Rejser;
         }
 
         private void btn_GemData(object sender, RoutedEventArgs e)
         {
 
-            // skal dette bruges ??
-            for (int i = 0; i < rejser.Count; i++)
-            {
-                saveDataModel.FerieData += $"{rejser[i].Destination} ";
-                saveDataModel.FerieData += $"{rejser[i].Pris} ";
-                saveDataModel.FerieData += $"{rejser[i].Dato} {Environment.NewLine}";
-                // saveDataModel.FerieData += $"{Rejser[i].Dato.ToShortDateString} {Environment.NewLine}";
-            }
-
+            // med saveDataModel
             if (!erDataGemt)
             {
-                // save to xml
-                var serializer = new XmlSerializer(typeof(ObservableCollection<Rejse>));                
-
-                using (var stream = new FileStream("rejser.xml", FileMode.Create))                
-                {
-                    serializer.Serialize(stream, rejser);
-                }
+                saveDataModel.FerieData = Rejser;
+                saveDataModel.SaveData();
                 erDataGemt = true;
                 MessageBox.Show("Data gemt på hardisk");
             }
 
-
+            // Måske lave dette med et while loop ?? eller switch
         }
 
-        private void btn_SorterAlfabetisk(object sender, RoutedEventArgs e)            
-        {            
-            
-            for (int i = 0;i < rejser.Count; i++)
+        private void btn_SorterAlfabetisk(object sender, RoutedEventArgs e)
+        {
+            for (int i_ydreLoop = 0; i_ydreLoop < Rejser.Count; i_ydreLoop++)
             {
-                for(int j = 0; j < rejser.Count - i - 1; j++)
+                for (int j_IndreLoop = 0; j_IndreLoop < Rejser.Count - i_ydreLoop - 1; j_IndreLoop++)
                 {
-                    if (string.Compare(rejser[j].Destination, rejser[j+1].Destination, StringComparison.OrdinalIgnoreCase) > 0)
+                    // .Compare() Returner en int -
+                    // Hvis result returnered fra .Compare er mindre end 0. Så er string1 mindre end string2
+                    // Hvis result returnered fra .Compare er lig 0. Så er string1 lig string2
+                    // Hvis result returnered fra .Compare er større end 0. Så er string1 større end string2                  
+                    if (string.Compare(Rejser[j_IndreLoop].Destination, Rejser[j_IndreLoop + 1].Destination, StringComparison.OrdinalIgnoreCase) > 0)
                     {
-                        Rejse temporary = rejser[j];
-                        rejser[j] = rejser[j+1];
-                        rejser[j+1] = temporary;
+                        Rejse temporary = Rejser[j_IndreLoop];
+                        Rejser[j_IndreLoop] = Rejser[j_IndreLoop + 1];
+                        Rejser[j_IndreLoop + 1] = temporary;
                     }
                 }
             }

@@ -28,19 +28,19 @@ namespace RejseApp
             
             destinationTextBox.Focus();
             datePicker.SelectedDate = DateTime.Today;
-            //CultureInfo danskeMåneder = new CultureInfo("da-DK");
-            //DateTimePicker datovælger = new DateTimePicker;
+            
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(destinationTextBox.Text) || string.IsNullOrWhiteSpace(priceTextBox.Text) || datePicker.SelectedDate == null)
+            if (string.IsNullOrWhiteSpace(destinationTextBox.Text) || string.IsNullOrWhiteSpace(prisTextBox.Text) || datePicker.SelectedDate == null)
             {
                 MessageBox.Show("Husk at skrive alle værdier.");
                 return;
             }
 
-            if (!decimal.TryParse(priceTextBox.Text, out decimal price))
+            // Tjek om prisen er angivet som et tal
+            if (!decimal.TryParse(prisTextBox.Text, out decimal price))
             {
                 MessageBox.Show("Pris skal være et tal.");
                 return;

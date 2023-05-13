@@ -35,7 +35,7 @@
             VerticalContentAlignment="Center"
             Content="Pris:" />
         <TextBox
-            Name="priceTextBox"
+            Name="prisTextBox"
             Grid.Row="1"
             Grid.Column="1"
             Width="100"
