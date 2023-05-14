@@ -15,7 +15,7 @@ namespace RejseApp.Models
 
         public void LoadData()
         {
-            // Load XML fra current working directory ( hvor .exe befinder sig )
+            // tjek om XML fra current working directory ( hvor .exe befinder sig ) findes
             if (File.Exists("rejser.xml"))
             {
                 // Load XML from bin/debug/net6.0-windows

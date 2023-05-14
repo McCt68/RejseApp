@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RejseApp.Repository;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -28,6 +29,10 @@ namespace RejseApp.Models
             {
                 serializer.Serialize(stream, FerieData);
             }
+
+            // Brug af singleton - implementering af Repository interface (RepositoryImplHD)
+            RepositoryImplHD saveToXml = RepositoryImplHD.Instance();
+            saveToXml.Save();
         }
     }
 }

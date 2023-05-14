@@ -38,21 +38,7 @@ namespace RejseApp
 
             loadDataModel.LoadData();
 
-            Rejser = loadDataModel.FerieDataXML;
-
-            //if (File.Exists("rejser.xml"))
-            //{
-            //    // Load XML from bin/net6.0-windows/debug
-            //    var serializer = new XmlSerializer(typeof(ObservableCollection<Rejse>));
-            //    using (var reader = new StreamReader("rejser.xml"))
-            //    {
-            //        Rejser = (ObservableCollection<Rejse>)serializer.Deserialize(reader);
-            //    }
-            //}
-            //else
-            //{
-            //    Rejser = new ObservableCollection<Rejse>();
-            //}           
+            Rejser = loadDataModel.FerieDataXML;                               
 
             // Sæt dataContext for dette vindue til Rejser property -
             // Dette gør at alle bindings i XAML opdaterer automatisk når Rejser listen ændrer sig -
@@ -77,12 +63,20 @@ namespace RejseApp
 
         private void Btn_SletRejse(object sender, RoutedEventArgs e)
         {
-            if (ListBox.SelectedItems != null)
+            switch (ListBox.SelectedItem)
             {
-                Rejser.Remove(ListBox.SelectedItem as Rejse);
-                MessageBox.Show("Rejse slettet");
-                erDataGemt = false;
-            }
+                case null:
+                    MessageBox.Show("Husk at markere Rejse, der skal slettes");
+                    break;
+                case Rejse selectedRejse:
+                    Rejser.Remove(selectedRejse);
+                    MessageBox.Show("Rejse slettet");
+                    erDataGemt = false;
+                    break;
+                default:
+                    MessageBox.Show("Ugyldigt valg");
+                    break;
+            }                                             
 
             if (!erDataGemt)
             {
@@ -133,34 +127,33 @@ namespace RejseApp
 
         private void btn_GemData(object sender, RoutedEventArgs e)
         {
-
-            // med saveDataModel
-            if (!erDataGemt)
+            while (!erDataGemt)
             {
                 saveDataModel.FerieData = Rejser;
                 saveDataModel.SaveData();
                 erDataGemt = true;
                 MessageBox.Show("Data gemt på hardisk");
-            }
-
-            // Måske lave dette med et while loop ?? eller switch
+            }            
         }
 
         private void btn_SorterAlfabetisk(object sender, RoutedEventArgs e)
         {
-            for (int i_ydreLoop = 0; i_ydreLoop < Rejser.Count; i_ydreLoop++)
+            for (int i = 0; i < Rejser.Count; i++)
             {
-                for (int j_IndreLoop = 0; j_IndreLoop < Rejser.Count - i_ydreLoop - 1; j_IndreLoop++)
+                // Indre loop i kører igennem antallet af rejser minus det antal gange det ydre loop j har kørt minus 1
+                for (int j = 0; j < Rejser.Count - i - 1; j++)
                 {
-                    // .Compare() Returner en int -
+                    // .Compare() sammenligner 2 stings og Returner en int -
                     // Hvis result returnered fra .Compare er mindre end 0. Så er string1 mindre end string2
                     // Hvis result returnered fra .Compare er lig 0. Så er string1 lig string2
-                    // Hvis result returnered fra .Compare er større end 0. Så er string1 større end string2                  
-                    if (string.Compare(Rejser[j_IndreLoop].Destination, Rejser[j_IndreLoop + 1].Destination, StringComparison.OrdinalIgnoreCase) > 0)
+                    // Hvis result returnered fra .Compare er større end 0. Så er string1 større end string2
+                    // Vi sammenligner så at sige den Rejse loopet er nået til med den næste i rækkefølgen -
+                    // Hvis den første Rejse i alfabetisk orden er større end den næste så byt om på dem.
+                    if (string.Compare(Rejser[j].Destination, Rejser[j + 1].Destination, StringComparison.OrdinalIgnoreCase) > 0)
                     {
-                        Rejse temporary = Rejser[j_IndreLoop];
-                        Rejser[j_IndreLoop] = Rejser[j_IndreLoop + 1];
-                        Rejser[j_IndreLoop + 1] = temporary;
+                        Rejse temporary = Rejser[j]; 
+                        Rejser[j] = Rejser[j + 1];
+                        Rejser[j + 1] = temporary;
                     }
                 }
             }

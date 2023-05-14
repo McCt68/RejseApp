@@ -20,26 +20,26 @@ namespace RejseApp
     /// </summary>
     public partial class OpretRejseWindow : Window
     {
-
         public Rejse NyRejse { get; private set; }
         public OpretRejseWindow()
         {
             InitializeComponent();
-            
+
             destinationTextBox.Focus();
             datePicker.SelectedDate = DateTime.Today;
-            
         }
-
+        
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(destinationTextBox.Text) || string.IsNullOrWhiteSpace(prisTextBox.Text) || datePicker.SelectedDate == null)
+            if (string.IsNullOrWhiteSpace(destinationTextBox.Text)
+                || string.IsNullOrWhiteSpace(prisTextBox.Text)
+                || datePicker.SelectedDate == null)
             {
                 MessageBox.Show("Husk at skrive alle værdier.");
                 return;
             }
 
-            // Tjek om prisen er angivet som et tal
+            // Sandt hvis Text ikke kan converteres til decimal
             if (!decimal.TryParse(prisTextBox.Text, out decimal price))
             {
                 MessageBox.Show("Pris skal være et tal.");
@@ -48,11 +48,11 @@ namespace RejseApp
 
             NyRejse = new Rejse
             {
-                Destination = $"{destinationTextBox.Text} -",
+                Destination = $"{destinationTextBox.Text}  - ",
                 Pris = price,
                 Dato = datePicker.SelectedDate.Value
             };
-           
+
             // DialogResult = true;
             this.DialogResult = true;
             Close();
