@@ -11,7 +11,7 @@ namespace RejseApp.Models
 {
     class LoadDataModel
     {
-        public ObservableCollection<Rejse> FerieDataXML { get; set; }
+        public ObservableCollection<Rejse>? FerieDataXML { get; set; }
 
         public void LoadData()
         {

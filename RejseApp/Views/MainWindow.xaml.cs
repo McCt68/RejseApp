@@ -28,7 +28,7 @@ namespace RejseApp
         public ObservableCollection<Rejse> Rejser { get; set; }
 
         private bool erDataGemt = false; // Holder styr på om data allerede er gemt
-
+                
         SaveDataModel saveDataModel = new SaveDataModel();
         LoadDataModel loadDataModel = new LoadDataModel();
 

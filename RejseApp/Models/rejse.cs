@@ -8,7 +8,6 @@ namespace RejseApp.Models
 {
     public class Rejse
     {
-
         // Encapsulation
         private string _destination = ""; 
 

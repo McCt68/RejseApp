@@ -7,15 +7,15 @@ using System.Windows;
 
 namespace RejseApp.Repository
 {
-    internal class RepositoryImplHD : Repository
+    internal class RepositoryImplHD : IRepository
     {
         // Her implementerer jeg interfacet Repository. Og har metoder til at gemme og hente data fra harddisk
-        // Jeg kunne så f.eks lave en anden implementering af Repository interfacet, der henter data fra en sky
+        // Jeg kunne så f.eks lave en anden implementering af Repository interfacet, der arbejder med data fra en sky.
 
         // Det er lavet som en singleton. Så kan man ikke komme til at skrive til HD fra flere instancer -
         // da der kun er denne ene instans.
 
-        // Constructor er privat så klassen ikke kan instantieres direkte. den har heller aldrig parametre
+        // Constructor er privat så klassen ikke kan instantieres direkte. Den har heller aldrig parametre
         private RepositoryImplHD() { }
 
         private static RepositoryImplHD _instance;
@@ -40,8 +40,8 @@ namespace RejseApp.Repository
         public void Save()
         {
             // throw new NotImplementedException();
-            MessageBox.Show("Skrev til HD fra Repo Interface singleton");
-            Console.WriteLine("Helløj fra singleton save");
+            MessageBox.Show("Hej fra Repo Interface singleton");
+            
         }
     }
 }

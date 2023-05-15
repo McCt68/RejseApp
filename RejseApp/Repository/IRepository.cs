@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RejseApp.Repository
 {
-    internal interface Repository
+    internal interface IRepository
     {
 
         // Her er en slags polymorphism

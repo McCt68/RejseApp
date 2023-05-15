@@ -1,11 +1,15 @@
-﻿<Window x:Class="RejseApp.OpretRejseWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RejseApp"
-        mc:Ignorable="d"
-        Title="OpretRejseWindow" Height="250" Width="330">
+﻿<Window
+    x:Class="RejseApp.OpretRejseWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:RejseApp"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="OpretRejseWindow"
+    Width="330"
+    Height="250"
+    Background="LightBlue"
+    mc:Ignorable="d">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -19,10 +23,12 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
+        <Border />
         <Label
             Grid.Row="0"
             VerticalContentAlignment="Center"
-            Content="Destination:" />
+            Content="Destination:"
+            FontWeight="Bold" />
         <TextBox
             Name="destinationTextBox"
             Grid.Column="1"
@@ -33,7 +39,8 @@
         <Label
             Grid.Row="1"
             VerticalContentAlignment="Center"
-            Content="Pris:" />
+            Content="Pris:"
+            FontWeight="Bold" />
         <TextBox
             Name="prisTextBox"
             Grid.Row="1"
@@ -45,30 +52,42 @@
         <Label
             Grid.Row="2"
             VerticalContentAlignment="Center"
-            Content="Dato:" />
+            Content="Dato:"
+            FontWeight="Bold" />
         <DatePicker
             Name="datePicker"
-            Cursor="Hand"
             Grid.Row="2"
             Grid.Column="1"
             Width="150"
             Margin="10"
             HorizontalAlignment="Left"
+            Cursor="Hand"
             Language="da-DK" />
+
+        <!--  Tilføj og Fortryd Knapper  -->
         <StackPanel
             Grid.Row="4"
             Grid.ColumnSpan="2"
             HorizontalAlignment="Right"
             Orientation="Horizontal">
+
+
             <Button
                 Height="24"
                 Margin="10"
+                BorderBrush="#3C96FE"
+                BorderThickness="2"
+                Background="Azure"
                 Click="CancelButton_Click"
                 Content="Fortryd"
                 Cursor="Hand" />
+
             <Button
                 Height="24"
                 Margin="10"
+                BorderBrush="#3C96FE"
+                BorderThickness="2"
+                Background="Azure"
                 Click="AddButton_Click"
                 Content="Tilføj"
                 Cursor="Hand" />
