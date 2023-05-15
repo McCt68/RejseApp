@@ -23,6 +23,7 @@ namespace RejseApp
     /// Interaction logic for MainWindow.xaml
     /// </summary>
 
+    // Er sat til Main Entry point via StartupUri i App.xaml
     public partial class MainWindow : Window
     {
         public ObservableCollection<Rejse> Rejser { get; set; }
@@ -32,12 +33,15 @@ namespace RejseApp
         SaveDataModel saveDataModel = new SaveDataModel();
         LoadDataModel loadDataModel = new LoadDataModel();
 
+        // Constructor
         public MainWindow()
         {
             InitializeComponent();
 
+            // Kald LoadDataModel
             loadDataModel.LoadData();
 
+            // Sæt Collection til Data fra LoadDataModel
             Rejser = loadDataModel.FerieDataXML;                               
 
             // Sæt dataContext for dette vindue til Rejser property -

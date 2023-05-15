@@ -32,9 +32,11 @@
         <TextBox
             Name="destinationTextBox"
             Grid.Column="1"
-            Width="200"
+            Width="195"
             Margin="10"
-            HorizontalAlignment="Left" />
+            HorizontalAlignment="Left"
+            BorderBrush="#3C96FE"
+            BorderThickness="2" Padding="2" />
 
         <Label
             Grid.Row="1"
@@ -47,7 +49,10 @@
             Grid.Column="1"
             Width="100"
             Margin="10"
-            HorizontalAlignment="Left" />
+            Padding="2"
+            HorizontalAlignment="Left"
+            BorderBrush="#3C96FE"
+            BorderThickness="2"/>
 
         <Label
             Grid.Row="2"
@@ -60,7 +65,10 @@
             Grid.Column="1"
             Width="150"
             Margin="10"
+            Padding="2"
             HorizontalAlignment="Left"
+            BorderBrush="#3C96FE"
+            BorderThickness="2"
             Cursor="Hand"
             Language="da-DK" />
 
@@ -74,20 +82,22 @@
 
             <Button
                 Height="24"
+                Width="50"
                 Margin="10"
+                Background="Azure"
                 BorderBrush="#3C96FE"
                 BorderThickness="2"
-                Background="Azure"
                 Click="CancelButton_Click"
                 Content="Fortryd"
                 Cursor="Hand" />
 
             <Button
                 Height="24"
+                Width="50"
                 Margin="10"
+                Background="Azure"
                 BorderBrush="#3C96FE"
                 BorderThickness="2"
-                Background="Azure"
                 Click="AddButton_Click"
                 Content="Tilføj"
                 Cursor="Hand" />
