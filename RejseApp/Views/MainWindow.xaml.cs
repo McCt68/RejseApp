@@ -26,7 +26,7 @@ namespace RejseApp
     // Er sat til Main Entry point via StartupUri i App.xaml
     public partial class MainWindow : Window
     {
-        public ObservableCollection<Rejse> Rejser { get; set; }
+        public ObservableCollection<Rejse>? Rejser { get; set; }
 
         private bool erDataGemt = false; // Holder styr på om data allerede er gemt
                 
@@ -55,8 +55,11 @@ namespace RejseApp
             // Opret nyt vindue
             OpretRejseWindow opretRejseWindow = new OpretRejseWindow();
 
+            // Vis opretRejseWindow og vent på det
             bool? visOpretRejseWindow = opretRejseWindow.ShowDialog();
 
+            // Check om vidue er blevet lukket med Dialogresult == true
+            // og tilføj den nye rejse, samt set erDataGemt til false.
             if (visOpretRejseWindow == true)
             {
                 Rejser.Add(opretRejseWindow.NyRejse);
@@ -67,10 +70,13 @@ namespace RejseApp
 
         private void Btn_SletRejse(object sender, RoutedEventArgs e)
         {
+            bool showSaveMsg = true;
+
             switch (ListBox.SelectedItem)
             {
                 case null:
                     MessageBox.Show("Husk at markere Rejse, der skal slettes");
+                    showSaveMsg=false;
                     break;
                 case Rejse selectedRejse:
                     Rejser.Remove(selectedRejse);
@@ -80,20 +86,16 @@ namespace RejseApp
                 default:
                     MessageBox.Show("Ugyldigt valg");
                     break;
-            }                                             
-
-            if (!erDataGemt)
+            }                                          
+                   
+            if (!erDataGemt && showSaveMsg == true)
             {
-                // save to xml
-                var serializer = new XmlSerializer(typeof(ObservableCollection<Rejse>));
-
-                using (var stream = new FileStream("rejser.xml", FileMode.Create))
-                {
-                    serializer.Serialize(stream, Rejser);
-                }
+                // Save Data 
+                saveDataModel.FerieData = Rejser;
+                saveDataModel.SaveData();
                 erDataGemt = true;
+                MessageBox.Show("Data gemt på hardisk");                
             }
-
         }
 
         private void btn_SorterPris(object sender, RoutedEventArgs e)
@@ -118,14 +120,12 @@ namespace RejseApp
 
         private void btn_SorterDato(object sender, RoutedEventArgs e)
         {
-            // Brug af LINQ med en Lambda metode. Giver samme resultat som ved at bruge SQL syntax -
+            // Brug af LINQ med Lambda. Giver samme resultat som ved at bruge SQL syntax -
             // Som jeg brugte da jeg sorterede efter Pris
             var sortedRejser = new ObservableCollection<Rejse>(Rejser.OrderBy(rejse => rejse.Dato));
-
-            // Replace the existing collection with the sorted collection
+                        
             Rejser = sortedRejser;
-
-            // Set the DataContext of the window to the sorted collection
+                        
             DataContext = Rejser;
         }
 
@@ -144,7 +144,7 @@ namespace RejseApp
         {
             for (int i = 0; i < Rejser.Count; i++)
             {
-                // Indre loop i kører igennem antallet af rejser minus det antal gange det ydre loop j har kørt minus 1
+                // Indre loop j kører igennem antallet af rejser minus det antal gange det ydre loop i har kørt minus 1
                 for (int j = 0; j < Rejser.Count - i - 1; j++)
                 {
                     // .Compare() sammenligner 2 stings og Returner en int -

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace RejseApp.Models
 {
     public class Rejse
     {
         // Encapsulation
-        private string _destination = ""; 
+        private string _destination = "";
 
         public string Destination
         {
@@ -23,7 +24,6 @@ namespace RejseApp.Models
 
         // Denne klasse har ikke en Constructor -
         // Hvis Constructor er udeladt så laver C# -
-        // selv en constructor uden parametre, og initialiserer fields til deres default værdi.        
-
+        // selv en constructor uden parametre, og initialiserer fields til deres default værdi.      
     }
 }

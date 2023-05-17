@@ -32,7 +32,7 @@ namespace RejseApp.Models
 
             // Brug af singleton - implementering af Repository interface (RepositoryImplHD)
             RepositoryImplHD saveToXml = RepositoryImplHD.Instance();
-            saveToXml.Save();
+            saveToXml.Save(); // Sender bare en pop up besked. Dette er bare for at illustrere hvordan det kunne laves.
         }
     }
 }

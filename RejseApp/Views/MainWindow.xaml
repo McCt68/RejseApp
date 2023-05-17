@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:RejseApp"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Rejser Oversigt"
-    Width="600"
+    Width="630"
     Height="700"
     MinWidth="550"
     MinHeight="630"

@@ -22,13 +22,12 @@ namespace RejseApp.Models
                 var serializer = new XmlSerializer(typeof(ObservableCollection<Rejse>));
                 using (var reader = new StreamReader("rejser.xml"))
                 {
-                    // sæt til fil fundet på HD
+                    // Sæt data til fil fundet på HD
                     FerieDataXML = (ObservableCollection<Rejse>)serializer.Deserialize(reader);
 
                 }
             }
             else FerieDataXML = new ObservableCollection<Rejse>(); // sæt til ny tom collection
         }
-
     }
 }

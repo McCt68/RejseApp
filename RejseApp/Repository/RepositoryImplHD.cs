@@ -18,7 +18,7 @@ namespace RejseApp.Repository
         // Constructor er privat så klassen ikke kan instantieres direkte. Den har heller aldrig parametre
         private RepositoryImplHD() { }
 
-        private static RepositoryImplHD _instance;
+        private static RepositoryImplHD? _instance;
 
         public static RepositoryImplHD Instance()
         {

@@ -40,7 +40,7 @@ namespace RejseApp
             }
 
             // Sandt hvis Text ikke kan converteres til decimal
-            if (!decimal.TryParse(prisTextBox.Text, out decimal price))
+            if (!decimal.TryParse(prisTextBox.Text, out decimal price))            
             {
                 MessageBox.Show("Pris skal være et tal.");
                 return;
